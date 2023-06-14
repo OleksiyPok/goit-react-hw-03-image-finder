@@ -1,3 +1,5 @@
+// import { Blocks } from 'react-loader-spinner';
+
 // import { AppContainer } from './App.styled';
 
 export const App = () => {
