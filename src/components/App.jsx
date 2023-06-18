@@ -7,7 +7,7 @@ import ImageGallery from 'components/ImageGallery';
 import Modal from 'components/Modal';
 // import Button from 'components/Button';
 
-import images from 'db/imagesDog.json';
+// import images from 'db/imagesDog.json';
 
 // import { AppContainer } from './App.styled';
 
