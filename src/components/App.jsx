@@ -1,45 +1,75 @@
 import { Component } from 'react';
 // import { Blocks } from 'react-loader-spinner';
 
-// import ApiService from 'services';
+import ApiService from 'services';
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
-// import ImageGalleryItem from 'components/ImageGalleryItem';
+import Modal from 'components/Modal';
 // import Button from 'components/Button';
 
-import images from 'db/images.json';
+import images from 'db/imagesDog.json';
 
 // import { AppContainer } from './App.styled';
 
-// let apiService = new ApiService();
+let apiService = new ApiService();
+const query = 'cat';
 
 class App extends Component {
   state = {
     isLoading: false,
-    data: '',
+    gallery: '',
+    showModal: false,
   };
 
-  // getSearchQuery = searchQuery => {
-  //   console.log('searchQuery:', searchQuery);
-  //   this.setState({ data: searchQuery });
-  // };
+  async getImages(searchQuery) {
+    try {
+      const responseData = await apiService.getData(searchQuery);
+      this.setState({ gallery: responseData });
+    } catch {}
+  }
 
-  // async getImages(searchQuery) {
-  //   try {
-  //     console.log('images:', images);
-  //     // const responseData = await apiService.getData('cat');
-  //     // console.log('responseData:', responseData);
-  //     // this.setState({ data: responseData });
-  //   } catch {}
-  // }
+  showGallery = s => {
+    console.log(s);
+  };
+
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
 
   render() {
-    // this.getImages('cat');
+    const { showModal } = this.state;
+    const gallery = this.state.gallery;
+
     return (
       <div>
         <Searchbar>Searchbar</Searchbar>
-        <ImageGallery gallery={images}>ImageGallery</ImageGallery>
-        {/* <Button>Button</Button> */}
+
+        {showModal && (
+          <Modal>
+            <button type="button" onClick={this.toggleModal}>
+              Close modal
+            </button>
+          </Modal>
+        )}
+
+        <button type="button" onClick={() => this.getImages(query)}>
+          Get gallery
+        </button>
+
+        <button type="button" onClick={() => this.showGallery(gallery)}>
+          Show gallery
+        </button>
+
+        {/* <ImageGallery gallery={images}>ImageGallery</ImageGallery> */}
+        {gallery && <ImageGallery gallery={gallery}>ImageGallery</ImageGallery>}
+
+        <button type="button" onClick={this.toggleModal}>
+          Open modal
+        </button>
+
+        {/* <Button onClick={this.toggleModal}/> */}
       </div>
     );
   }
