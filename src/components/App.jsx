@@ -27,7 +27,7 @@ class App extends Component {
       this.state.searchQuery &&
       prevState.searchQuery !== this.state.searchQuery
     ) {
-      this.getImages(this.state.searchQuery);
+      this.doRequest(this.state.searchQuery);
     }
   }
 
@@ -35,7 +35,7 @@ class App extends Component {
     this.setState({ searchQuery: searchQuery });
   };
 
-  async getImages(searchQuery) {
+  async doRequest(searchQuery) {
     try {
       const responseData = await apiService.getData(searchQuery);
       this.setState({ gallery: responseData, searchQuery: '' });
@@ -68,7 +68,7 @@ class App extends Component {
           </Modal>
         )}
 
-        <button type="button" onClick={() => this.getImages(query)}>
+        <button type="button" onClick={() => this.doRequest(query)}>
           Get gallery
         </button>
 
