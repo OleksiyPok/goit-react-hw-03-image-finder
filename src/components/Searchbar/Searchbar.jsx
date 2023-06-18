@@ -7,21 +7,37 @@ import {
   Header,
   SearchForm,
   SearchButton,
-  // SearchLabel,
   SearchInput,
 } from './Searchbar.styled';
 
 class Searchbar extends Component {
-  state = {
-    searchQuery: '',
-  };
+  // state = {
+  //   searchQuery: '',
+  // };
+
+  componentDidUpdate(prevProps, prevState) {
+    // if (prevState.searchQuery !== this.state.searchQuery) {
+    //   this.props.setQuery(this.state.searchQuery);
+    // }
+    // console.log('Searchbar - componentDidUpdate');
+  }
+
+  componentDidMount() {
+    // console.log('Searchbar - componentDidMount');
+  }
+
+  componentWillUnmount() {
+    // console.log('Searchbar - componentWillUnmount');
+  }
 
   handleSubmit = e => {
     e.preventDefault();
-    const searchQuery = e.currentTarget.elements.searchQuery.value;
-    this.setState({ searchQuery: searchQuery });
-    console.log('this.state.searchQuery:', this.state.searchQuery);
-    // this.props.onSubmit(this.state.searchQuery);
+    const searchQuery = e.currentTarget.elements.searchQuery.value
+      .trim()
+      .toLowerCase();
+    // this.setState({ searchQuery: searchQuery });
+    this.props.setQuery(searchQuery);
+    e.currentTarget.elements.searchQuery.value = '';
   };
 
   render() {

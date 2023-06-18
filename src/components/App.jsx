@@ -16,15 +16,29 @@ const query = 'cat';
 
 class App extends Component {
   state = {
+    searchQuery: '',
     isLoading: false,
     gallery: '',
     showModal: false,
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.searchQuery &&
+      prevState.searchQuery !== this.state.searchQuery
+    ) {
+      this.getImages(this.state.searchQuery);
+    }
+  }
+
+  setSearchQuery = searchQuery => {
+    this.setState({ searchQuery: searchQuery });
+  };
+
   async getImages(searchQuery) {
     try {
       const responseData = await apiService.getData(searchQuery);
-      this.setState({ gallery: responseData });
+      this.setState({ gallery: responseData, searchQuery: '' });
     } catch {}
   }
 
@@ -44,7 +58,7 @@ class App extends Component {
 
     return (
       <div>
-        <Searchbar>Searchbar</Searchbar>
+        <Searchbar setQuery={this.setSearchQuery}>Searchbar</Searchbar>
 
         {showModal && (
           <Modal>
