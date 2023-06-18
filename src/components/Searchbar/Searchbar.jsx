@@ -1,10 +1,13 @@
 import { Component } from 'react';
 // import PropTypes from 'prop-types';
+
+import { BsSearch } from 'react-icons/bs';
+
 import {
   Header,
   SearchForm,
   SearchButton,
-  SearchLabel,
+  // SearchLabel,
   SearchInput,
 } from './Searchbar.styled';
 
@@ -26,7 +29,7 @@ class Searchbar extends Component {
       <Header className="searchbar">
         <SearchForm className="form" onSubmit={this.handleSubmit}>
           <SearchButton type="submit" className="button">
-            {/* <SearchLabel className="button-label">Search</SearchLabel> */}
+            <BsSearch width="16" height="16" />
           </SearchButton>
 
           <SearchInput

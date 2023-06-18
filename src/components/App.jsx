@@ -2,7 +2,7 @@ import { Component } from 'react';
 // import { Blocks } from 'react-loader-spinner';
 
 // import ApiService from 'services';
-// import Searchbar from 'components/Searchbar';
+import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
 // import ImageGalleryItem from 'components/ImageGalleryItem';
 // import Button from 'components/Button';
@@ -37,7 +37,7 @@ class App extends Component {
     // this.getImages('cat');
     return (
       <div>
-        {/* <Searchbar onSubmit={this.getSearchQuery}>Searchbar</Searchbar> */}
+        <Searchbar>Searchbar</Searchbar>
         <ImageGallery gallery={images}>ImageGallery</ImageGallery>
         {/* <Button>Button</Button> */}
       </div>
