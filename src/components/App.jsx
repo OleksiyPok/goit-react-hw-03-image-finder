@@ -4,12 +4,10 @@ import { Component } from 'react';
 import ApiService from 'services';
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
-import Modal from 'components/Modal';
+
 // import Button from 'components/Button';
 
-// import images from 'db/imagesDog.json';
-
-// import { AppContainer } from './App.styled';
+import { AppContainer } from './App.styled';
 
 let apiService = new ApiService();
 
@@ -18,7 +16,6 @@ class App extends Component {
     searchQuery: '',
     isLoading: false,
     gallery: '',
-    showModal: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -41,39 +38,14 @@ class App extends Component {
     } catch {}
   }
 
-  toggleModal = () => {
-    console.log(this.state.showModal);
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
-
   render() {
-    const { showModal } = this.state;
     const gallery = this.state.gallery;
 
     return (
-      <div>
+      <AppContainer>
         <Searchbar setQuery={this.setSearchQuery}>Searchbar</Searchbar>
-
-        {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <span>TEXT</span>
-            {/* <button type="button" onClick={this.toggleModal}>
-              Close modal
-            </button> */}
-          </Modal>
-        )}
-
-        <button type="button" onClick={this.toggleModal}>
-          Open modal
-        </button>
-
-        {/* <ImageGallery gallery={images}>ImageGallery</ImageGallery> */}
         {gallery && <ImageGallery gallery={gallery}>ImageGallery</ImageGallery>}
-
-        {/* <Button onClick={this.toggleModal}/> */}
-      </div>
+      </AppContainer>
     );
   }
 }
