@@ -4,8 +4,8 @@ import { Component } from 'react';
 import ApiService from 'services';
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
-
-// import Button from 'components/Button';
+import Button from 'components/Button';
+import Loader from 'components/Loader';
 
 import { AppContainer } from './App.styled';
 
@@ -16,6 +16,7 @@ class App extends Component {
     searchQuery: '',
     isLoading: false,
     gallery: '',
+    currentPage: 1,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -31,20 +32,30 @@ class App extends Component {
     this.setState({ searchQuery: searchQuery });
   };
 
+  handleLoadMore = () => {};
+
   async doRequest(searchQuery) {
     try {
+      this.setState({ isLoading: true });
       const responseData = await apiService.getData(searchQuery);
       this.setState({ gallery: responseData, searchQuery: '' });
-    } catch {}
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
   }
 
   render() {
-    const gallery = this.state.gallery;
-
+    const { isLoading, gallery } = this.state;
     return (
       <AppContainer>
-        <Searchbar setQuery={this.setSearchQuery}>Searchbar</Searchbar>
-        {gallery && <ImageGallery gallery={gallery}>ImageGallery</ImageGallery>}
+        <Searchbar setQuery={this.setSearchQuery} />
+        {gallery && <ImageGallery gallery={gallery} />}
+        {!isLoading && gallery && <Button loadMore={this.handleLoadMore} />}
+        {isLoading && <Loader />}
+
+        <Loader />
       </AppContainer>
     );
   }
