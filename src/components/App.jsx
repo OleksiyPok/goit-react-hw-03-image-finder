@@ -12,7 +12,6 @@ import Modal from 'components/Modal';
 // import { AppContainer } from './App.styled';
 
 let apiService = new ApiService();
-const query = 'cat';
 
 class App extends Component {
   state = {
@@ -42,11 +41,8 @@ class App extends Component {
     } catch {}
   }
 
-  showGallery = s => {
-    console.log(s);
-  };
-
   toggleModal = () => {
+    console.log(this.state.showModal);
     this.setState(({ showModal }) => ({
       showModal: !showModal,
     }));
@@ -61,27 +57,20 @@ class App extends Component {
         <Searchbar setQuery={this.setSearchQuery}>Searchbar</Searchbar>
 
         {showModal && (
-          <Modal>
-            <button type="button" onClick={this.toggleModal}>
+          <Modal onClose={this.toggleModal}>
+            <span>TEXT</span>
+            {/* <button type="button" onClick={this.toggleModal}>
               Close modal
-            </button>
+            </button> */}
           </Modal>
         )}
-
-        <button type="button" onClick={() => this.doRequest(query)}>
-          Get gallery
-        </button>
-
-        <button type="button" onClick={() => this.showGallery(gallery)}>
-          Show gallery
-        </button>
-
-        {/* <ImageGallery gallery={images}>ImageGallery</ImageGallery> */}
-        {gallery && <ImageGallery gallery={gallery}>ImageGallery</ImageGallery>}
 
         <button type="button" onClick={this.toggleModal}>
           Open modal
         </button>
+
+        {/* <ImageGallery gallery={images}>ImageGallery</ImageGallery> */}
+        {gallery && <ImageGallery gallery={gallery}>ImageGallery</ImageGallery>}
 
         {/* <Button onClick={this.toggleModal}/> */}
       </div>

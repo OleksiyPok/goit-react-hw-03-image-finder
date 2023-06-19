@@ -1,25 +1,48 @@
 import { Component } from 'react';
-// import PropTypes from 'prop-types';
+import { createPortal } from 'react-dom';
+
+import PropTypes from 'prop-types';
+
 import { Overlay, ModalDiv } from './Modal.styled';
+
+const modalRoot = document.querySelector('#modal-root');
 
 class Modal extends Component {
   state = { isOpen: false };
 
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDownEscape);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDownEscape);
+  }
+
+  handleKeyDownEscape = e => {
+    if (e.code === 'Escape') {
+      this.props.onClose();
+    }
+  };
+
+  handleBackdropClick = e => {
+    if (e.currentTarget === e.target) {
+      this.props.onClose();
+    }
+  };
+
   render() {
-    return (
-      <Overlay className="modal__backdrop">
+    return createPortal(
+      <Overlay className="modal__backdrop" onClick={this.handleBackdropClick}>
         <ModalDiv className="modal__content">{this.props.children}</ModalDiv>
-      </Overlay>
+      </Overlay>,
+      modalRoot
     );
   }
 }
 
-// const Modal = ({ children }) => {
-//   return (
-//     <Overlay className="modal__backdrop">
-//       <ModalDiv className="modal__content">{children}</ModalDiv>
-//     </Overlay>
-//   );
-// };
-
 export default Modal;
+
+Modal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  // largeImage: PropTypes.string.isRequired,
+};
