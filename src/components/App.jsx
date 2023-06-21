@@ -1,5 +1,4 @@
 import { Component } from 'react';
-// import { Blocks } from 'react-loader-spinner';
 
 import ApiService from 'services';
 import Searchbar from 'components/Searchbar';
@@ -15,47 +14,93 @@ class App extends Component {
   state = {
     searchQuery: '',
     isLoading: false,
+    totalImages: 0,
+    imagesPerPage: 12,
+    totalPages: 0,
     gallery: '',
-    currentPage: 1,
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.state.searchQuery &&
-      prevState.searchQuery !== this.state.searchQuery
-    ) {
-      this.doRequest(this.state.searchQuery);
+  handleOnSearch = currentSearchQuery => {
+    this.setState({ isLoading: true });
+
+    if (currentSearchQuery === '') {
+      this.setState({
+        searchQuery: '',
+        gallery: '',
+        totalImages: '',
+        totalPages: '',
+      });
+    } else if (currentSearchQuery !== this.state.searchQuery) {
+      this.doRequest(currentSearchQuery);
     }
-  }
 
-  setSearchQuery = searchQuery => {
-    this.setState({ searchQuery: searchQuery });
+    this.setState({ isLoading: false });
   };
 
-  handleLoadMore = () => {};
+  handleLoadMore = () => {
+    this.setState({ isLoading: true });
+
+    const currentPage = apiService.getCurrentPage();
+    const totalPages = this.state.totalPages;
+    const currentSearchQuery = this.state.searchQuery;
+
+    if (currentPage < totalPages) {
+      apiService.incrementPage();
+
+      if (currentSearchQuery === '') {
+        this.setState({
+          searchQuery: '',
+          gallery: '',
+          totalImages: '',
+          totalPages: '',
+        });
+      } else {
+        this.doRequest(currentSearchQuery);
+      }
+    }
+
+    this.setState({ isLoading: false });
+  };
 
   async doRequest(searchQuery) {
     try {
-      this.setState({ isLoading: true });
       const responseData = await apiService.getData(searchQuery);
-      this.setState({ gallery: responseData, searchQuery: '' });
+
+      const totalImages = responseData.total;
+      const imagesPerPage = apiService.perPage;
+      const totalPages = Math.floor(totalImages / imagesPerPage);
+      const newGallery = responseData.hits;
+      const prevSearchQuery = this.state.searchQuery;
+
+      this.setState({
+        searchQuery: searchQuery,
+        totalImages: totalImages,
+        totalPages: totalPages,
+      });
+
+      if (searchQuery === prevSearchQuery) {
+        this.setState(prevState => ({
+          gallery: [...prevState.gallery, ...newGallery],
+        }));
+      } else {
+        this.setState({
+          gallery: newGallery,
+        });
+      }
     } catch (error) {
       console.log(error);
-    } finally {
-      this.setState({ isLoading: false });
     }
   }
 
   render() {
     const { isLoading, gallery } = this.state;
+
     return (
       <AppContainer>
-        <Searchbar setQuery={this.setSearchQuery} />
+        <Searchbar onClickSearch={this.handleOnSearch} />
         {gallery && <ImageGallery gallery={gallery} />}
         {!isLoading && gallery && <Button loadMore={this.handleLoadMore} />}
         {isLoading && <Loader />}
-
-        <Loader />
       </AppContainer>
     );
   }

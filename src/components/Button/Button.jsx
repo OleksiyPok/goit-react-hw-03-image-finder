@@ -5,7 +5,7 @@ import { ButtonEl } from './Button.styled';
 class Button extends Component {
   state = {};
   render() {
-    return <ButtonEl>More</ButtonEl>;
+    return <ButtonEl onClick={this.props.loadMore}>More</ButtonEl>;
   }
 }
 

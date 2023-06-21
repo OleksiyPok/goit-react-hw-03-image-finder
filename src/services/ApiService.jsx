@@ -10,6 +10,7 @@ const ORIENTATION = 'horizontal';
 const SAFESEARCH = 'true';
 const PER_PAGE = '12';
 
+// example
 // const FULL_TEST_URL = `https://pixabay.com/api/?q=cat&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`;
 
 class ApiService {
@@ -19,16 +20,16 @@ class ApiService {
     this.searchQuery = '';
   }
 
-  get currentPage() {
-    return this.page;
-  }
-
-  set currentPage(newPage) {
-    this.page = newPage;
-  }
-
   async getData(searchQuery) {
-    this.searchQuery = searchQuery;
+    const oldSearchQuery = this.searchQuery;
+
+    if (oldSearchQuery !== searchQuery) {
+      this.resetPage();
+      this.searchQuery = searchQuery;
+    }
+
+    console.log('Api - currentPage:', this.page);
+
     const params = [];
 
     const options = {
@@ -59,7 +60,24 @@ class ApiService {
     const FULL_REQEST = BASE_URL + '?' + PARAMS;
 
     const response = await axios.get(FULL_REQEST);
+
     return response.data;
+  }
+
+  getPerPage() {
+    return this.perPage;
+  }
+
+  setPerPage(newPerPage) {
+    this.perPage = newPerPage;
+  }
+
+  getCurrentPage() {
+    return this.page;
+  }
+
+  setCurrentPage(newPage) {
+    this.page = newPage;
   }
 
   incrementPage() {

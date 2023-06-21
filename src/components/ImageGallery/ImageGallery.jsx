@@ -5,7 +5,7 @@ import ImageGalleryItem from 'components/ImageGalleryItem';
 import { Ul } from './ImageGallery.styled';
 
 const ImageGallery = ({ gallery }) => {
-  const galleryItems = gallery.hits;
+  const galleryItems = gallery;
 
   return (
     <Ul className="gallery">
@@ -23,4 +23,4 @@ const ImageGallery = ({ gallery }) => {
 
 export default ImageGallery;
 
-ImageGallery.propTypes = { gallery: PropTypes.object.isRequired };
+ImageGallery.propTypes = { gallery: PropTypes.array.isRequired };

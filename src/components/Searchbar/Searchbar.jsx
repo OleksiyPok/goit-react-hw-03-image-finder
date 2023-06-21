@@ -16,9 +16,6 @@ class Searchbar extends Component {
   // };
 
   componentDidUpdate(prevProps, prevState) {
-    // if (prevState.searchQuery !== this.state.searchQuery) {
-    //   this.props.setQuery(this.state.searchQuery);
-    // }
     // console.log('Searchbar - componentDidUpdate');
   }
 
@@ -36,8 +33,8 @@ class Searchbar extends Component {
       .trim()
       .toLowerCase();
     // this.setState({ searchQuery: searchQuery });
-    this.props.setQuery(searchQuery);
-    e.currentTarget.elements.searchQuery.value = '';
+    this.props.onClickSearch(searchQuery);
+    // e.currentTarget.elements.searchQuery.value = '';
   };
 
   render() {
