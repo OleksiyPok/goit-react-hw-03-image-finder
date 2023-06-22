@@ -13,11 +13,6 @@ export const Overlay = styled.div`
   z-index: 1200;
 `;
 export const ModalDiv = styled.div`
-  max-width: calc(100vw - 48px);
-  max-height: calc(100vh - 24px);
-  /* display: flex;
-  justify-content: center; */
-  /* width: 600px;
-  min-height: 200px;
-  background-color: white; */
+  max-width: calc(70vw - 48px);
+  border: 4px solid ghostwhite;
 `;

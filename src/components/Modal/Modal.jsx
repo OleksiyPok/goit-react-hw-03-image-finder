@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
 
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { Overlay, ModalDiv } from './Modal.styled';
 
@@ -46,7 +46,8 @@ class Modal extends Component {
 
 export default Modal;
 
-// Modal.propTypes = {
-// onClose: PropTypes.func.isRequired,
-// largeImage: PropTypes.string.isRequired,
-// };
+Modal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  largeImage: PropTypes.string.isRequired,
+  description: PropTypes.string,
+};
