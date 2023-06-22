@@ -1,7 +1,7 @@
 import axios from 'axios';
 // const axios = require('axios');
 
-// to add a parameter to request, add the parameter as a string constant
+// add the parameter as a string constant
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '34108164-696ccaa844df7defeecc2723b';
 
@@ -27,8 +27,6 @@ class ApiService {
       this.resetPage();
       this.searchQuery = searchQuery;
     }
-
-    console.log('Api - currentPage:', this.page);
 
     const params = [];
 

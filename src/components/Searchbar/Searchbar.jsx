@@ -1,5 +1,5 @@
 import { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { BsSearch } from 'react-icons/bs';
 
@@ -11,30 +11,12 @@ import {
 } from './Searchbar.styled';
 
 class Searchbar extends Component {
-  // state = {
-  //   searchQuery: '',
-  // };
-
-  componentDidUpdate(prevProps, prevState) {
-    // console.log('Searchbar - componentDidUpdate');
-  }
-
-  componentDidMount() {
-    // console.log('Searchbar - componentDidMount');
-  }
-
-  componentWillUnmount() {
-    // console.log('Searchbar - componentWillUnmount');
-  }
-
   handleSubmit = e => {
     e.preventDefault();
     const searchQuery = e.currentTarget.elements.searchQuery.value
       .trim()
       .toLowerCase();
-    // this.setState({ searchQuery: searchQuery });
     this.props.onClickSearch(searchQuery);
-    // e.currentTarget.elements.searchQuery.value = '';
   };
 
   render() {
@@ -61,6 +43,6 @@ class Searchbar extends Component {
 
 export default Searchbar;
 
-// Searchbar.propTypes = {
-//   onSubmit: PropTypes.func,
-// };
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func,
+};

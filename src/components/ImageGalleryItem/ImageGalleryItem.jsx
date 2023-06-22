@@ -10,22 +10,6 @@ class ImageGalleryItem extends Component {
     showModal: false,
   };
 
-  // componentDidUpdate() {
-  //   if (this.state.showModal === true) {
-  //     document.body.style.overflow = 'hidden';
-  //   } else {
-  //     document.body.style.overflow = 'unset';
-  //   }
-  // }
-
-  // openModal = () => {
-  //   this.setState({ showModal: true });
-  // };
-
-  // closeModal = () => {
-  //   this.setState({ showModal: false });
-  // };
-
   toggleModal = () => {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
