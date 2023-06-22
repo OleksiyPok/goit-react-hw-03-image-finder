@@ -1,12 +1,13 @@
-// import PropTypes from 'prop-types';
-import { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { ButtonEl } from './Button.styled';
 
-class Button extends Component {
-  state = {};
-  render() {
-    return <ButtonEl onClick={this.props.loadMore}>More</ButtonEl>;
-  }
-}
+const Button = ({ loadMore }) => {
+  return <ButtonEl onClick={loadMore}>More</ButtonEl>;
+};
 
 export default Button;
+
+Button.propTypes = {
+  loadMore: PropTypes.func.isRequired,
+};
