@@ -17,7 +17,8 @@ class App extends Component {
     totalImages: 0,
     imagesPerPage: 12,
     totalPages: 0,
-    gallery: '',
+    gallery: [],
+    isShowButton: false,
   };
 
   handleOnSearch = currentSearchQuery => {
@@ -29,6 +30,7 @@ class App extends Component {
         gallery: '',
         totalImages: '',
         totalPages: '',
+        isShowButton: false,
       });
     } else if (currentSearchQuery !== this.state.searchQuery) {
       this.doRequest(currentSearchQuery);
@@ -50,16 +52,19 @@ class App extends Component {
       if (currentSearchQuery === '') {
         this.setState({
           searchQuery: '',
-          gallery: '',
+          gallery: [],
           totalImages: '',
           totalPages: '',
+          isShowButton: false,
         });
       } else {
         this.doRequest(currentSearchQuery);
       }
-    }
+    } else {
+      this.setState({ isShowButton: false });
 
-    this.setState({ isLoading: false });
+      this.setState({ isLoading: false });
+    }
   };
 
   async doRequest(searchQuery) {
@@ -81,10 +86,12 @@ class App extends Component {
       if (searchQuery === prevSearchQuery) {
         this.setState(prevState => ({
           gallery: [...prevState.gallery, ...newGallery],
+          isShowButton: true,
         }));
       } else {
         this.setState({
           gallery: newGallery,
+          isShowButton: true,
         });
       }
     } catch (error) {
@@ -93,13 +100,13 @@ class App extends Component {
   }
 
   render() {
-    const { isLoading, gallery } = this.state;
+    const { isLoading, gallery, isShowButton } = this.state;
 
     return (
       <AppContainer>
         <Searchbar onClickSearch={this.handleOnSearch} />
         {gallery && <ImageGallery gallery={gallery} />}
-        {!isLoading && gallery && <Button loadMore={this.handleLoadMore} />}
+        {isShowButton && gallery && <Button loadMore={this.handleLoadMore} />}
         {isLoading && <Loader />}
       </AppContainer>
     );

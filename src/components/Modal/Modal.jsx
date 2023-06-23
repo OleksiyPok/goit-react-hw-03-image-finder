@@ -8,8 +8,6 @@ import { Overlay, ModalDiv } from './Modal.styled';
 const modalRoot = document.querySelector('#modal-root');
 
 class Modal extends Component {
-  state = { isOpen: false };
-
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDownEscape);
   }
