@@ -7,8 +7,8 @@ const Loader = () => {
       height="40"
       width="40"
       ariaLabel="blocks-loading"
-      wrapperStyle={{}}
-      wrapperClass="blocks-wrapper"
+      wrapperStyle={{ display: 'flex', justifyContent: 'center' }}
+      wrapperClassName="blocks-wrapper"
     />
   );
 };

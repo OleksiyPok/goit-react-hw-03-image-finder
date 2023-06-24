@@ -1,4 +1,2 @@
-import ApiService from './ApiService';
-export default ApiService;
-
-// export * from './ApiService';
+import { getData, IMAGES_PER_PAGE } from './ApiService';
+export { getData, IMAGES_PER_PAGE };

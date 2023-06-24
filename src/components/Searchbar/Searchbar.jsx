@@ -9,7 +9,7 @@ import {
   SearchInput,
 } from './Searchbar.styled';
 
-const Searchbar = ({ onClickSearch }) => {
+const Searchbar = ({ onClickSearch, oldSearchQuery }) => {
   const handleSubmit = e => {
     e.preventDefault();
     const searchQuery = e.currentTarget.elements.searchQuery.value
@@ -24,7 +24,6 @@ const Searchbar = ({ onClickSearch }) => {
         <SearchButton type="submit" className="button">
           <BsSearch width="16" height="16" />
         </SearchButton>
-
         <SearchInput
           className="input"
           type="text"
@@ -43,4 +42,6 @@ export default Searchbar;
 
 Searchbar.propTypes = {
   onSubmit: PropTypes.func,
+  currentSearchQuery: PropTypes.string,
+  oldSearchQuery: PropTypes.string,
 };
