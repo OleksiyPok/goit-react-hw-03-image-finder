@@ -1,4 +1,7 @@
+import { createPortal } from 'react-dom';
 import { Blocks } from 'react-loader-spinner';
+
+const loaderRoot = document.querySelector('#loader-root');
 
 const Loader = () => {
   return (

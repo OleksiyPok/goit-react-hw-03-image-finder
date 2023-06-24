@@ -36,6 +36,9 @@ class App extends Component {
       }
 
       if (currentSearchQuery !== '') {
+        this.setState({
+          isLoading: true,
+        });
         this.doRequest(currentSearchQuery, currentPage);
       }
     }
@@ -47,7 +50,6 @@ class App extends Component {
         searchQuery: currentSearchQuery,
         gallery: [],
         currentPage: 1,
-        isLoading: true,
       });
     }
   };
@@ -58,7 +60,6 @@ class App extends Component {
     if (currentPage < totalPages) {
       this.setState(({ currentPage }) => ({
         currentPage: currentPage + 1,
-        isLoading: true,
       }));
     }
   };
