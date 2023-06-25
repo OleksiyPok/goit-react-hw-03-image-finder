@@ -52,26 +52,6 @@ class App extends Component {
     }
   };
 
-  parseData = (responseData, currentPage) => {
-    // const newGallery = responseData.hits;
-    // this.setState(prevState => ({
-    //   gallery: [...prevState.gallery, ...newGallery],
-    // }));
-    // if (currentPage === 1) {
-    //   const imagesPerPage = newGallery.length;
-    //   const totalImages = responseData.total;
-    //   const totalPages = Math.ceil(totalImages / imagesPerPage);
-    //   if (newGallery.length === 0) {
-    //     toast.error(`No images found for your request!`);
-    //   } else {
-    //     toast.success(`Found ${totalImages} images matching your request`);
-    //   }
-    //   this.setState({
-    //     totalPages: totalPages,
-    //   });
-    // }
-  };
-
   async doRequest(searchQuery, currentPage) {
     if (!searchQuery) {
       toast.error(`Enter a search string!`);
@@ -88,8 +68,6 @@ class App extends Component {
 
     try {
       const responseData = await Api.getData(searchQuery, currentPage);
-
-      // this.parseData(responseData);
 
       const newGallery = responseData.hits;
 
