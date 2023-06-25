@@ -7,7 +7,7 @@ const API_KEY = '34108164-696ccaa844df7defeecc2723b';
 const IMAGE_TYPE = 'photo';
 const ORIENTATION = 'horizontal';
 const SAFESEARCH = 'true';
-export const IMAGES_PER_PAGE = 12;
+const IMAGES_PER_PAGE = 12;
 
 // example
 // const FULL_TEST_URL = `https://pixabay.com/api/?q=cat&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`;

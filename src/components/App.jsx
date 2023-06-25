@@ -22,21 +22,8 @@ class App extends Component {
       prevState.searchQuery !== this.state.searchQuery ||
       prevState.currentPage !== this.state.currentPage
     ) {
-      const currentSearchQuery = this.state.searchQuery;
-      const currentPage = this.state.currentPage;
-
-      if (currentSearchQuery === '') {
-        this.setState({
-          searchQuery: '',
-          currentPage: 1,
-          totalPages: 0,
-          gallery: [],
-        });
-      }
-
-      if (currentSearchQuery !== '') {
-        this.doRequest(currentSearchQuery, currentPage);
-      }
+      const { searchQuery, currentPage } = this.state;
+      this.doRequest(searchQuery, currentPage);
     }
   }
 
@@ -61,10 +48,10 @@ class App extends Component {
   };
 
   async doRequest(searchQuery, page) {
-    // if (!searchQuery) {
-    //   console.log('no search');
-    //   return;
-    // }
+    if (!searchQuery) {
+      console.log('no search');
+      return;
+    }
 
     this.setState({
       isLoading: true,
@@ -74,14 +61,20 @@ class App extends Component {
       const responseData = await Api.getData(searchQuery, page);
       console.log('responseData:', responseData);
 
-      const totalImages = responseData.total;
-      const totalPages = Math.ceil(totalImages / Api.IMAGES_PER_PAGE);
       const newGallery = responseData.hits;
-
       this.setState(prevState => ({
         gallery: [...prevState.gallery, ...newGallery],
-        totalPages: totalPages,
       }));
+
+      if (page === 1) {
+        const imagesPerPage = newGallery.length;
+        const totalImages = responseData.total;
+        const totalPages = Math.ceil(totalImages / imagesPerPage);
+
+        this.setState({
+          totalPages: totalPages,
+        });
+      }
     } catch (error) {
       return console.log(error.message);
     } finally {
