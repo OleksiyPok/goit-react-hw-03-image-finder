@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Api } from 'services';
 import Searchbar from 'components/Searchbar';
@@ -34,6 +36,9 @@ class App extends Component {
         gallery: [],
         currentPage: 1,
       });
+    } else if (currentSearchQuery === '') {
+      toast.error(`Enter a search string`);
+    } else {
     }
   };
 
@@ -47,10 +52,34 @@ class App extends Component {
     }
   };
 
-  async doRequest(searchQuery, page) {
+  parseData = (responseData, currentPage) => {
+    // const newGallery = responseData.hits;
+    // this.setState(prevState => ({
+    //   gallery: [...prevState.gallery, ...newGallery],
+    // }));
+    // if (currentPage === 1) {
+    //   const imagesPerPage = newGallery.length;
+    //   const totalImages = responseData.total;
+    //   const totalPages = Math.ceil(totalImages / imagesPerPage);
+    //   if (newGallery.length === 0) {
+    //     toast.error(`No images found for your request!`);
+    //   } else {
+    //     toast.success(`Found ${totalImages} images matching your request`);
+    //   }
+    //   this.setState({
+    //     totalPages: totalPages,
+    //   });
+    // }
+  };
+
+  async doRequest(searchQuery, currentPage) {
     if (!searchQuery) {
-      console.log('no search');
+      toast.error(`Enter a search string!`);
       return;
+    }
+
+    if (currentPage === this.state.totalPages) {
+      toast.info(`This is the last page`);
     }
 
     this.setState({
@@ -58,18 +87,26 @@ class App extends Component {
     });
 
     try {
-      const responseData = await Api.getData(searchQuery, page);
-      console.log('responseData:', responseData);
+      const responseData = await Api.getData(searchQuery, currentPage);
+
+      // this.parseData(responseData);
 
       const newGallery = responseData.hits;
+
       this.setState(prevState => ({
         gallery: [...prevState.gallery, ...newGallery],
       }));
 
-      if (page === 1) {
+      if (currentPage === 1) {
         const imagesPerPage = newGallery.length;
         const totalImages = responseData.total;
         const totalPages = Math.ceil(totalImages / imagesPerPage);
+
+        if (newGallery.length === 0) {
+          toast.error(`No images found for your request!`);
+        } else {
+          toast.success(`Found ${totalImages} images matching your request`);
+        }
 
         this.setState({
           totalPages: totalPages,
@@ -90,12 +127,23 @@ class App extends Component {
     const isShowGallery = Boolean(gallery.length);
     const isShowButton = isShowGallery && currentPage !== totalPages;
 
+    const toastParams = {
+      position: 'top-left',
+      autoClose: 2000,
+      hideProgressBar: true,
+      newestOnTop: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+    };
+
     return (
       <AppContainer>
         <Searchbar onClickSearch={this.handleOnSearch} />
         {isShowGallery && <ImageGallery gallery={gallery} />}
         {isShowButton && <Button loadMore={this.handleLoadMore} />}
         {isLoading && <Loader />}
+
+        <ToastContainer {...toastParams} />
       </AppContainer>
     );
   }
