@@ -1,18 +1,17 @@
-import { createPortal } from 'react-dom';
 import { Blocks } from 'react-loader-spinner';
-
-const loaderRoot = document.querySelector('#loader-root');
+import { Overlay } from './Loader.styled';
 
 const Loader = () => {
   return (
-    <Blocks
-      visible={true}
-      height="40"
-      width="40"
-      ariaLabel="blocks-loading"
-      wrapperStyle={{ display: 'flex', justifyContent: 'center' }}
-      wrapperClassName="blocks-wrapper"
-    />
+    <Overlay>
+      <Blocks
+        visible={true}
+        height="40"
+        width="40"
+        ariaLabel="blocks-loading"
+        wrapperClassName="blocks-wrapper"
+      />
+    </Overlay>
   );
 };
 

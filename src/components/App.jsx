@@ -1,6 +1,6 @@
 import { Component } from 'react';
 
-import { getData, IMAGES_PER_PAGE } from 'services';
+import { Api } from 'services';
 import Searchbar from 'components/Searchbar';
 import ImageGallery from 'components/ImageGallery';
 import Button from 'components/Button';
@@ -28,7 +28,6 @@ class App extends Component {
       if (currentSearchQuery === '') {
         this.setState({
           searchQuery: '',
-          isLoading: false,
           currentPage: 1,
           totalPages: 0,
           gallery: [],
@@ -36,9 +35,6 @@ class App extends Component {
       }
 
       if (currentSearchQuery !== '') {
-        this.setState({
-          isLoading: true,
-        });
         this.doRequest(currentSearchQuery, currentPage);
       }
     }
@@ -65,36 +61,45 @@ class App extends Component {
   };
 
   async doRequest(searchQuery, page) {
+    // if (!searchQuery) {
+    //   console.log('no search');
+    //   return;
+    // }
+
+    this.setState({
+      isLoading: true,
+    });
+
     try {
-      const responseData = await getData(searchQuery, page);
+      const responseData = await Api.getData(searchQuery, page);
+      console.log('responseData:', responseData);
 
       const totalImages = responseData.total;
-      const totalPages = Math.ceil(totalImages / IMAGES_PER_PAGE);
+      const totalPages = Math.ceil(totalImages / Api.IMAGES_PER_PAGE);
       const newGallery = responseData.hits;
 
       this.setState(prevState => ({
         gallery: [...prevState.gallery, ...newGallery],
         totalPages: totalPages,
-        isLoading: false,
       }));
     } catch (error) {
-      console.log(error);
+      return console.log(error.message);
+    } finally {
+      this.setState({
+        isLoading: false,
+      });
     }
   }
 
   render() {
-    const { searchQuery, isLoading, gallery, totalPages, currentPage } =
-      this.state;
+    const { isLoading, gallery, totalPages, currentPage } = this.state;
 
     const isShowGallery = Boolean(gallery.length);
     const isShowButton = isShowGallery && currentPage !== totalPages;
 
     return (
       <AppContainer>
-        <Searchbar
-          onClickSearch={this.handleOnSearch}
-          oldSearchQuery={searchQuery}
-        />
+        <Searchbar onClickSearch={this.handleOnSearch} />
         {isShowGallery && <ImageGallery gallery={gallery} />}
         {isShowButton && <Button loadMore={this.handleLoadMore} />}
         {isLoading && <Loader />}

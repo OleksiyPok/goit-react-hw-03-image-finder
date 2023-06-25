@@ -9,7 +9,7 @@ import {
   SearchInput,
 } from './Searchbar.styled';
 
-const Searchbar = ({ onClickSearch, oldSearchQuery }) => {
+const Searchbar = ({ onClickSearch }) => {
   const handleSubmit = e => {
     e.preventDefault();
     const searchQuery = e.currentTarget.elements.searchQuery.value
@@ -17,6 +17,10 @@ const Searchbar = ({ onClickSearch, oldSearchQuery }) => {
       .toLowerCase();
     onClickSearch(searchQuery);
   };
+
+  //   const handleChange = () => {
+  //   this.state.
+  // }
 
   return (
     <Header className="searchbar">
